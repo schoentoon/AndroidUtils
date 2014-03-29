@@ -66,9 +66,16 @@ public final class TransluencyHelper {
         e.printStackTrace();
       }
     }
+    int bottom = 0;
+    final View decor = win.getDecorView();
+    final View actionBar = decor.findViewById(activity.getResources().getIdentifier("split_action_bar", "id", "android"));
+    if (actionBar != null && actionBar.getVisibility() == View.VISIBLE && actionBar.willNotDraw() == false) {
+      a = theme.obtainStyledAttributes(actionBarStyle, new int[]{android.R.attr.actionBarSize});
+      bottom = a.getDimensionPixelOffset(0, 0);
+    }
 
     final SystemBarTintManager.SystemBarConfig config = tintManager.getConfig();
     for (View view : views)
-      view.setPadding(0, config.getStatusBarHeight() + config.getActionBarHeight() + tabHeight, config.getPixelInsetRight(), 0);
+      view.setPadding(0, config.getStatusBarHeight() + config.getActionBarHeight() + tabHeight, config.getPixelInsetRight(), bottom);
   }
 }
